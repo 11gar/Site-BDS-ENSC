@@ -1,0 +1,58 @@
+@import "../../styles/variables.scss";
+$border-winners: 30px;
+
+.prewei {
+  display: flex;
+  flex-direction: column;
+  .teams {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    align-self: center;
+    .team {
+      margin-top: 0px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      .points-container {
+        margin: 10px 0px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: hidden;
+        width: 80%;
+        .points {
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-right: 10px;
+          background-color: $main-color;
+          color: white;
+          display: flex;
+          flex-direction: row-reverse;
+          text-align: end;
+          font-weight: bold;
+          &.p0 {
+            background-color: $top1-color;
+          }
+          &.p1 {
+            background-color: $top2-color;
+          }
+          &.p2 {
+            background-color: $top3-color;
+          }
+        }
+      }
+
+      .team-nom {
+        max-width: 20%;
+        display: flex;
+        flex-direction: row;
+        text-align: end;
+        align-self: center;
+        justify-content: flex-end;
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@import "../../styles/variables.scss";
+
+nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 80px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  background-color: $main-color;
+  a {
+    padding: 10px 15px;
+    border-right: solid 2px $main-color-light;
+    font-size: large;
+    display: flex;
+    align-self: center;
+    color: white;
+    &:hover {
+      color: $main-color-light;
+    }
+  }
+}

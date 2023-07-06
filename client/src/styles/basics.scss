@@ -1,0 +1,20 @@
+@import "./variables.scss";
+
+a {
+  color: $main-color;
+  :hover {
+    color: $main-color-light;
+    opacity: 0.3;
+  }
+  :visited {
+    color: $main-color;
+  }
+}
+
+.page {
+  position: absolute;
+  top: 80px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
