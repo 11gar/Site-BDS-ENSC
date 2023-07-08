@@ -2,6 +2,7 @@
 
 a {
   color: $main-color;
+  text-decoration: none;
   :hover {
     color: $main-color-light;
     opacity: 0.3;
@@ -17,4 +18,24 @@ a {
   right: 0;
   left: 0;
   bottom: 0;
+}
+
+.bouton {
+  width: 100%;
+  padding: 10px 0px;
+  color: white;
+  text-align: center;
+  justify-content: center;
+  background-color: $main-color;
+  border-radius: 10px;
+  font-weight: bold;
+  &.light {
+    color: $main-color;
+    background-color: white;
+    border: solid 2px $main-color;
+    &.very {
+      color: $main-color-light;
+      border: solid 2px $main-color-light;
+    }
+  }
 }
