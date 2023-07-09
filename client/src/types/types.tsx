@@ -4,6 +4,7 @@ export interface ITask {
 
 export interface IUser {
   id: number;
+  password: string;
   pseudo: string;
   nom: string;
   prenom: string;

@@ -14,6 +14,9 @@ export class UserList extends React.Component {
     pseudo: "cc",
     nom: "moi",
     prenom: "lui",
+    famille: "nous",
+    equipe: "eux",
+    password: "",
   };
   protected team: ITeam = {
     id: 0,

@@ -13,4 +13,5 @@ module.exports = (app) => {
   app.get("/user/:id", user.getUserById);
   app.get("/users/famille/:id", user.getAllUsersFromFamille);
   app.get("/users/equipe/:id", user.getAllUsersFromEquipe);
+  app.get("/user/:login/:password", user.getUserIdByLoginAndPassword);
 };

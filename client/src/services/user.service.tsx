@@ -13,8 +13,27 @@ export const getUsers = async () => {
         prenom: element.prenom,
         famille: element.famille,
         equipe: element.equipe,
+        password: "",
       });
     });
   });
   return users;
+};
+
+export const getUserByLoginAndPassword = async (
+  login: string,
+  password: string
+) => {
+  let id: number | null = null;
+  await axios
+    .get("http://localhost:4000/user/" + login + "/" + password)
+    .then((res) => {
+      console.log("res", res.data[0].id);
+      if (res) {
+        if (res.data[0].id) {
+          id = res.data[0].id;
+        }
+      }
+    });
+  return id;
 };

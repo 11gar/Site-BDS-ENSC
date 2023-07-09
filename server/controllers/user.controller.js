@@ -7,21 +7,33 @@ exports.createUser = (req, res) => {
     });
   }
 
-  console.log("controller", req.body.user);
-
   const user = new User({
     pseudo: req.body.pseudo,
     nom: req.body.nom,
     prenom: req.body.prenom,
   });
 
-  User.createUser(user, (err, data) => {
+  User.createUser(user, (data, err) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while adding the user.",
       });
     else res.send(data);
   });
+};
+
+exports.getUserIdByLoginAndPassword = (req, res) => {
+  User.getUserIdByLoginAndPassword(
+    req.params.login,
+    req.params.password,
+    (data, err) => {
+      if (err)
+        res.status(500).send({
+          message: err.message || "Some error occurred while retrieving user.",
+        });
+      else res.send(data);
+    }
+  );
 };
 
 exports.getAllUsers = async (req, res) => {
@@ -37,7 +49,7 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.getUserById = (req, res) => {
-  User.getUserById(req.params.id, (err, data) => {
+  User.getUserById(req.params.id, (data, err) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving user.",
@@ -46,20 +58,21 @@ exports.getUserById = (req, res) => {
   });
 };
 
-exports.getAllUsersFromFamille = (req, res) => {
-  User.getAllUsersFromFamille(req.params.id, (err, data) => {
-    if (err)
-      res({
-        message: err.message || "Some error occurred while retrieving users.",
+exports.getAllUsersFromFamille = async (req, res) => {
+  User.getAllUsersFromFamille(req.params.id, (data, err) => {
+    if (err) {
+      console.log(err);
+      res.send({
+        message: err,
       });
-    else {
+    } else {
       res.send(data);
     }
   });
 };
 
 exports.getAllUsersFromEquipe = (req, res) => {
-  User.getAllUsersFromEquipe(req.params.id, (err, data) => {
+  User.getAllUsersFromEquipe(req.params.id, (dara, err) => {
     if (err)
       res({
         message: err.message || "Some error occurred while retrieving users.",

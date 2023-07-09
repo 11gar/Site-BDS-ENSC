@@ -13,13 +13,21 @@ User.createUser = (newUser, res) => {
   console.log("model", newTask.content);
   connection.query(
     `insert into bds.users(pseudo,nom,prenom) values (?,?,?)`,
-    newUser.pseudo,
-    newUser.nom,
-    newUser.prenom,
+    [newUser.pseudo, newUser.nom, newUser.prenom],
     (err) => {
       if (err) {
         console.log(err);
       }
+    }
+  );
+};
+
+User.getUserIdByLoginAndPassword = (login, password, res) => {
+  connection.query(
+    `select id from bds.users where pseudo = ? and password = ?`,
+    [login, password],
+    (err, result) => {
+      res(result);
     }
   );
 };
@@ -32,7 +40,7 @@ User.getUserById = (userId, res) => {
       if (err) {
         console.log(err);
       }
-      res.send(result);
+      res(result);
     }
   );
 };
@@ -51,10 +59,7 @@ User.getAllUsersFromFamille = (familleId, res) => {
     `select * from bds.users where famille = ?`,
     familleId,
     (err, result) => {
-      if (err) {
-        console.log(err);
-      }
-      res.send(result);
+      res(result);
     }
   );
 };

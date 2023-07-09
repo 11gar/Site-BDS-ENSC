@@ -4,13 +4,16 @@ import "./prewei-page.scss";
 import "../../styles/basics.scss";
 import { ITeam } from "../../types/types";
 import { getTeams } from "../../services/equipe.service";
+import { createCookie, deleteCookie } from "../../functions";
+import Loader from "../../Components/app-loader/app-loader";
 
 export default class PreweiPage extends React.Component {
-  protected teamList: ITeam[] = [];
   protected lengthList: number[] = [];
 
   state = {
-    teams: this.teamList,
+    loading: true,
+    fillingDefi: false,
+    teams: [] as ITeam[],
   };
 
   constructor(props: any) {
@@ -19,8 +22,11 @@ export default class PreweiPage extends React.Component {
 
   async componentDidMount() {
     await this.getTeamsFromService();
+
     await this.setPointsLength();
+
     await this.animatePoints();
+    this.setState({ loading: false });
   }
 
   async getTeamsFromService() {
@@ -106,6 +112,13 @@ export default class PreweiPage extends React.Component {
   render() {
     return (
       <div className="prewei page">
+        {this.state.loading ? (
+          <div className="loading">
+            <Loader />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="title">
           <h1>Classement Actuel</h1>
         </div>
@@ -135,9 +148,28 @@ export default class PreweiPage extends React.Component {
           </div>
         </div>
         <div className="boutons">
-          <div className="bouton">+ Remplir un défi</div>
+          <div
+            className="bouton"
+            onClick={(e) => this.setState({ fillingDefi: true })}
+          >
+            + Remplir un défi
+          </div>
           <div className="bouton light">Liste des défis</div>
         </div>
+
+        {this.state.fillingDefi ? (
+          <div className="defiTab">
+            <div className="content"></div>
+            <div
+              className="bouton"
+              onClick={(e) => this.setState({ fillingDefi: false })}
+            >
+              Retour
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }
