@@ -1,4 +1,5 @@
 const connection = require("../db");
+// const name = require("../db");
 
 const Defi = function (defi) {
   this.id = defi.id;
@@ -8,7 +9,7 @@ const Defi = function (defi) {
 };
 
 Defi.getAllDefis = async (res) => {
-  connection.query(`select * from bds.defis`, (err, result) => {
+  connection.query(`select * from sql7633633.defis`, (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -18,7 +19,7 @@ Defi.getAllDefis = async (res) => {
 
 Defi.getDefiById = async (idDefi, res) => {
   connection.query(
-    `select * from bds.defis where id = ?`,
+    `select * from sql7633633.defis where id = ?`,
     idDefi,
     (err, result) => {
       if (err) {
@@ -29,9 +30,23 @@ Defi.getDefiById = async (idDefi, res) => {
   );
 };
 
+Defi.searchDefi = async (search, res) => {
+  connection.query(
+    `select * from sql7633633.defis where (description like ?) or (nom like ?)`,
+    ["%" + search + "%", "%" + search + "%"],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(result);
+      res(result);
+    }
+  );
+};
+
 Defi.getDefisFromEquipe = async (idEquipe, res) => {
   connection.query(
-    `select idDefi from bds.defis_equipes where idequipe = ?`,
+    `select idDefi from sql7633633.defis_equipes where idequipe = ?`,
     idEquipe,
     (err, result) => {
       if (err) {
@@ -45,7 +60,7 @@ Defi.getDefisFromEquipe = async (idEquipe, res) => {
 Defi.remplirDefi = async (idDefi, idEquipe, preuve, res) => {
   console.log("model", idDefi, idEquipe);
   connection.query(
-    `insert into bds.defis_equipes(idequipe, iddefi,preuve) values (?,?,?)`,
+    `insert into sql7633633.defis_equipes(idequipe, iddefi,preuve) values (?,?,?)`,
     [idDefi, idEquipe, preuve],
     (err, result) => {
       console.log(result);
@@ -57,7 +72,7 @@ Defi.remplirDefi = async (idDefi, idEquipe, preuve, res) => {
 Defi.updatePointsEquipe = async (idEquipe, points, res) => {
   console.log("model", idEquipe);
   connection.query(
-    `update bds.equipes set points = ? where id = ?`,
+    `update sql7633633.equipes set points = ? where id = ?`,
     [points, idEquipe],
     (err, result) => {
       console.log(result);

@@ -17,6 +17,27 @@ export const getDefis = async () => {
   return defis;
 };
 
+export const searchDefi = async (search: string) => {
+  const defis: IDefi[] = [];
+  if (search == "") {
+    return getDefis();
+  }
+  await axios
+    .get("http://localhost:4000/defis/search/" + search)
+    .then((res) => {
+      res.data.forEach((element: IDefi) => {
+        defis.push({
+          id: element.id,
+          nom: element.nom,
+          description: element.description,
+          points: element.points,
+        });
+      });
+    });
+  console.log(defis);
+  return defis;
+};
+
 export const getDefiById = async (id: number) => {
   let defi: IDefi | null = null;
   await axios.get("http://localhost:4000/defi/" + id).then((res) => {

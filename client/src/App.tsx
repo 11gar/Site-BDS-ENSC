@@ -6,6 +6,7 @@ import PreweiPage from "./Pages/prewei-page/prewei-page";
 import { Routes, Route } from "react-router-dom";
 import UserPage from "./Pages/user-page/user-page";
 import Navbar from "./Components/Navbar/navbar";
+import DefisPage from "./Pages/defis-page/defis-page";
 import "./styles/variables.scss";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/profil" element={<UserPage />} />
         <Route path="/prewei/:defi" element={<PreweiPage />} />
         <Route path="/prewei/" element={<PreweiPage />} />
+        <Route path="/defis/" element={<DefisPage />} />
       </Routes>
     </div>
   );

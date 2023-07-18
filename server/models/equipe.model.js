@@ -8,7 +8,7 @@ const Equipe = function (equipe) {
 
 Equipe.getTeamById = (teamId, res) => {
   connection.query(
-    `select * from bds.equipes where id = ?`,
+    `select * from sql7633633.equipes where id = ?`,
     teamId,
     (err, result) => {
       if (err) {
@@ -21,7 +21,7 @@ Equipe.getTeamById = (teamId, res) => {
 
 Equipe.getFamilleById = (teamId, res) => {
   connection.query(
-    `select * from bds.familles where id = ?`,
+    `select * from sql7633633.familles where id = ?`,
     teamId,
     (err, result) => {
       if (err) {
@@ -33,7 +33,7 @@ Equipe.getFamilleById = (teamId, res) => {
 };
 
 Equipe.getAllFamilles = async (res) => {
-  connection.query(`select * from bds.familles`, (err, result) => {
+  connection.query(`select * from sql7633633.familles`, (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -42,7 +42,7 @@ Equipe.getAllFamilles = async (res) => {
 };
 
 Equipe.getAllTeams = async (res) => {
-  connection.query(`select * from bds.equipes`, (err, result) => {
+  connection.query(`select * from sql7633633.equipes`, (err, result) => {
     if (err) {
       console.log(err);
     }

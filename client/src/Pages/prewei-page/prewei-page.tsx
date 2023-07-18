@@ -18,7 +18,6 @@ import {
 } from "../../functions";
 import Loader from "../../Components/app-loader/app-loader";
 import { useParams, Link } from "react-router-dom";
-import { log } from "console";
 
 function withParams(Component: any) {
   return function WrappedComponent(props: any) {
@@ -53,10 +52,10 @@ class PreweiPage extends React.Component {
     await this.doOnStart();
     this.setState({ loading: false });
     if (!this.state.userTeam) {
-      this.state.userTeam = this.state.teams[0].id;
+      this.setState({ userTeam: this.state.teams[0].id });
     }
     if (!this.state.idDefi) {
-      this.state.idDefi = this.state.defis[0].id;
+      this.setState({ idDefi: this.state.defis[0].id });
     }
     this.readableProps = getProps(this.props);
 

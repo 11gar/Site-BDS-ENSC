@@ -12,7 +12,7 @@ const User = function (user) {
 User.createUser = (newUser, res) => {
   console.log("model", newTask.content);
   connection.query(
-    `insert into bds.users(pseudo,nom,prenom) values (?,?,?)`,
+    `insert into sql7633633.users(pseudo,nom,prenom) values (?,?,?)`,
     [newUser.pseudo, newUser.nom, newUser.prenom],
     (err) => {
       if (err) {
@@ -24,7 +24,7 @@ User.createUser = (newUser, res) => {
 
 User.getUserIdByLoginAndPassword = (login, password, res) => {
   connection.query(
-    `select id from bds.users where pseudo = ? and password = ?`,
+    `select id from sql7633633.users where pseudo = ? and password = ?`,
     [login, password],
     (err, result) => {
       res(result);
@@ -34,7 +34,7 @@ User.getUserIdByLoginAndPassword = (login, password, res) => {
 
 User.getUserById = (userId, res) => {
   connection.query(
-    `select * from bds.users where id = ?`,
+    `select * from sql7633633.users where id = ?`,
     userId,
     (err, result) => {
       if (err) {
@@ -46,7 +46,7 @@ User.getUserById = (userId, res) => {
 };
 
 User.getAllUsers = async (res) => {
-  connection.query(`select * from bds.users`, (err, result) => {
+  connection.query(`select * from sql7633633.users`, (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -56,7 +56,7 @@ User.getAllUsers = async (res) => {
 
 User.getAllUsersFromFamille = (familleId, res) => {
   connection.query(
-    `select * from bds.users where famille = ?`,
+    `select * from sql7633633.users where famille = ?`,
     familleId,
     (err, result) => {
       res(result);
@@ -66,7 +66,7 @@ User.getAllUsersFromFamille = (familleId, res) => {
 
 User.getAllUsersFromEquipe = (equipeId, res) => {
   connection.query(
-    `select * from bds.users where equipe = ?`,
+    `select * from sql7633633.users where equipe = ?`,
     equipeId,
     (err, result) => {
       if (err) {

@@ -34,6 +34,16 @@ exports.getDefiById = (req, res) => {
   });
 };
 
+exports.searchDefi = (req, res) => {
+  Defi.searchDefi(req.params.search, (data, err) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving defi.",
+      });
+    else res.send(data);
+  });
+};
+
 exports.remplirDefi = (req, res) => {
   Defi.remplirDefi(
     req.body.idDefi,
