@@ -13,7 +13,7 @@ exports.getAllTeams = async (req, res) => {
 };
 
 exports.getTeamById = (req, res) => {
-  Equipe.getTeamById(req.params.id, (err, data) => {
+  Equipe.getTeamById(req.params.id, (data, err) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving user.",

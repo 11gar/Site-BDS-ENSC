@@ -20,7 +20,24 @@ a {
   bottom: 0;
 }
 
+input {
+  width: 100%;
+  margin: 5px;
+  padding: 10px;
+  border: 2px solid $main-color;
+  border-radius: 10px;
+}
+
+select {
+  width: 100%;
+  margin: 5px;
+  padding: 10px;
+  border: 2px solid $main-color;
+  border-radius: 10px;
+}
+
 .bouton {
+  user-select: none;
   width: 100%;
   padding: 10px 0px;
   color: white;
@@ -29,14 +46,29 @@ a {
   background-color: $main-color;
   border-radius: 10px;
   font-weight: bold;
+  &.bottom {
+    position: absolute;
+    width: auto;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+  }
   &.light {
     color: $main-color;
     background-color: white;
     border: solid 2px $main-color;
+    &:hover {
+      background-color: white;
+      border: solid 2px $main-color-light;
+      color: $main-color-light;
+    }
     &.very {
       color: $main-color-light;
       border: solid 2px $main-color-light;
     }
+  }
+  &:active {
+    background-color: $main-color-dark;
   }
 }
 

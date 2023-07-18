@@ -16,6 +16,18 @@ export const getTeams = async () => {
   return teams;
 };
 
+export const getTeamById = async (id: number) => {
+  let team: ITeam | null = null;
+  await axios.get("http://localhost:4000/equipe/" + id).then((res) => {
+    team = {
+      id: res.data[0].id,
+      nom: res.data[0].nom,
+      points: res.data[0].points,
+    };
+  });
+  return team;
+};
+
 export const getFamilles = async () => {
   const familles: ITeam[] = [];
   await axios.get("http://localhost:4000/familles").then((res) => {

@@ -14,8 +14,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<FrontPage />} />
-        <Route path="/profil/:id" element={<UserPage />} />
-        <Route path="/prewei" element={<PreweiPage />} />
+        <Route path="/profil" element={<UserPage />} />
+        <Route path="/prewei/:defi" element={<PreweiPage />} />
+        <Route path="/prewei/" element={<PreweiPage />} />
       </Routes>
     </div>
   );

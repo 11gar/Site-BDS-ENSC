@@ -1,5 +1,5 @@
 import React from "react";
-import "./front-page.scss";
+import "./defis-page.scss";
 import "../../styles/basics.scss";
 import { createCookie, deleteCookie } from "../../functions";
 
@@ -7,7 +7,7 @@ export default class FrontPage extends React.Component {
   async componentDidMount() {}
   render() {
     return (
-      <div className="frontpage page">
+      <div className="defispage page">
         <div className="image">
           <img
             src={require("../../Assets/Images/photoFrontpage.jpg")}

@@ -76,7 +76,6 @@ export default class UserPage extends React.Component {
             </div>
           ) : (
             <div className="profile">
-              pas coucou
               <div className="bouton" onClick={(e) => this.logout()}>
                 Deco
               </div>

@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <nav>
       <Link to="/">Accueil</Link>
-      <Link to="/profil/1">Profil 1</Link>
+      <Link to="/profil">Profil</Link>
       <Link to="/prewei">Pré-wei</Link>
     </nav>
   );

@@ -23,6 +23,13 @@ export interface ITeam {
   points: number;
 }
 
+export interface IDefi {
+  id: number;
+  nom: string;
+  description: string;
+  points: number;
+}
+
 export type Id = {
   id: string;
 };

@@ -2,18 +2,45 @@ import React from "react";
 import { Id } from "../../types/types";
 import "./prewei-page.scss";
 import "../../styles/basics.scss";
-import { ITeam } from "../../types/types";
-import { getTeams } from "../../services/equipe.service";
-import { createCookie, deleteCookie } from "../../functions";
+import { ITeam, IDefi } from "../../types/types";
+import { getTeams, getTeamById } from "../../services/equipe.service";
+import {
+  getDefis,
+  remplirDefi,
+  updatePointsEquipe,
+  getDefisByEquipe,
+} from "../../services/defi.service";
+import {
+  createCookie,
+  deleteCookie,
+  getCookie,
+  getProps,
+} from "../../functions";
 import Loader from "../../Components/app-loader/app-loader";
+import { useParams, Link } from "react-router-dom";
+import { log } from "console";
 
-export default class PreweiPage extends React.Component {
+function withParams(Component: any) {
+  return function WrappedComponent(props: any) {
+    const params = useParams<Id>();
+    return <Component {...props} {...params} />;
+  };
+}
+
+class PreweiPage extends React.Component {
   protected lengthList: number[] = [];
+  protected user: number | null = null;
+  protected readableProps: any;
 
   state = {
     loading: true,
     fillingDefi: false,
     teams: [] as ITeam[],
+    defis: [] as IDefi[],
+    userTeam: null as number | null,
+    idDefi: null as number | null,
+    preuve: null as string | null,
+    error: null as string | null,
   };
 
   constructor(props: any) {
@@ -21,17 +48,57 @@ export default class PreweiPage extends React.Component {
   }
 
   async componentDidMount() {
+    this.user = getCookie("user") ? +getCookie("user")! : null;
+
+    await this.doOnStart();
+    this.setState({ loading: false });
+    if (!this.state.userTeam) {
+      this.state.userTeam = this.state.teams[0].id;
+    }
+    if (!this.state.idDefi) {
+      this.state.idDefi = this.state.defis[0].id;
+    }
+    this.readableProps = getProps(this.props);
+
+    console.log(+this.readableProps.defi);
+
+    if (this.readableProps.defi != undefined) {
+      this.setState({ fillingDefi: true });
+      this.setState({ idDefi: +this.readableProps.defi });
+
+      var defisSorted: IDefi[] = [];
+      defisSorted.push(
+        this.state.defis.find((defi) => defi.id == +this.readableProps.defi)!
+      );
+      console.log(defisSorted);
+      this.state.defis.forEach((defi) => {
+        if (defi.id != +this.readableProps.defi) {
+          defisSorted.push(defi);
+        }
+      });
+      console.log(defisSorted);
+
+      this.setState({ defis: defisSorted });
+    }
+  }
+
+  async doOnStart() {
     await this.getTeamsFromService();
+    await this.getDefisFromService();
 
     await this.setPointsLength();
 
     await this.animatePoints();
-    this.setState({ loading: false });
   }
 
   async getTeamsFromService() {
     this.setState({
       teams: (await getTeams()).sort((a, b) => b.points - a.points),
+    });
+  }
+  async getDefisFromService() {
+    this.setState({
+      defis: (await getDefis()).sort((a, b) => a.id - b.id),
     });
   }
 
@@ -40,8 +107,8 @@ export default class PreweiPage extends React.Component {
     const lengths: number[] = [];
     this.state.teams.forEach((team) => {
       let length = "";
-      if ((team.points * 100) / this.state.teams[0].points < 3) {
-        length = "25px";
+      if ((team.points * 100) / this.state.teams[0].points < 10) {
+        length = "10%";
       } else {
         length = (team.points * 100) / this.state.teams[0].points + "%";
       }
@@ -50,10 +117,8 @@ export default class PreweiPage extends React.Component {
   }
 
   async animatePoints() {
-    console.log("animate", this.state.teams);
     const nbTeams = this.state.teams.length;
     this.state.teams.forEach((team, index) => {
-      console.log("coucou");
       const elem = document.getElementById(team.id.toString());
       elem!.animate(
         [
@@ -71,7 +136,6 @@ export default class PreweiPage extends React.Component {
       );
     });
     this.state.teams.forEach((team, index) => {
-      console.log("coucou");
       const elem = document.getElementById("name" + team.id.toString());
       elem!.animate(
         [
@@ -90,7 +154,6 @@ export default class PreweiPage extends React.Component {
       );
     });
     this.state.teams.forEach((team, index) => {
-      console.log("coucou");
       const elem = document.getElementById("cover" + team.id.toString());
       elem!.animate(
         [
@@ -107,6 +170,39 @@ export default class PreweiPage extends React.Component {
         }
       );
     });
+  }
+
+  async postDefi() {
+    console.log("post", this.state.idDefi, this.state.userTeam);
+
+    if (this.state.idDefi && this.state.userTeam && this.state.preuve) {
+      const pts = this.state.defis.find(
+        (defi) => defi.id == this.state.idDefi
+      )!.points;
+      const team = this.state.teams.find(
+        (team) => team.id == this.state.userTeam
+      );
+
+      const defisEquipe = await getDefisByEquipe(this.state.userTeam);
+      console.log("defisEquipe", defisEquipe, this.state.idDefi);
+      console.log("déja fait ?", defisEquipe.includes(this.state.idDefi));
+      if (defisEquipe == null || !defisEquipe.includes(this.state.idDefi)) {
+        remplirDefi(this.state.userTeam, this.state.idDefi, this.state.preuve);
+        updatePointsEquipe(this.state.userTeam, +team!.points + +pts);
+        this.setState({ fillingDefi: false });
+        this.doOnStart();
+      } else {
+        this.setState({
+          error: "L'équipe " + team!.nom + " a déjà rempli ce défi !",
+        });
+      }
+    } else {
+      this.setState({
+        error: "Un champ n'a pas été rempli",
+      });
+    }
+
+    return;
   }
 
   render() {
@@ -154,17 +250,90 @@ export default class PreweiPage extends React.Component {
           >
             + Remplir un défi
           </div>
-          <div className="bouton light">Liste des défis</div>
+          <Link to="/defis">
+            <div className="bouton light">Liste des défis</div>
+          </Link>
         </div>
 
         {this.state.fillingDefi ? (
           <div className="defiTab">
-            <div className="content"></div>
-            <div
-              className="bouton"
-              onClick={(e) => this.setState({ fillingDefi: false })}
-            >
-              Retour
+            <div className="content">
+              <div className="line">
+                <div className="c1">
+                  <div className="txt">1</div>
+                  <div className="ligne" />
+                </div>
+                <div className="c2">
+                  Déposer la vidéo sur ce groupe Facebook :
+                </div>
+              </div>
+
+              <div className="line">
+                <div className="c1">
+                  <div className="txt">2</div>
+                  <div className="ligne" />
+                </div>
+                <div className="c2">Remplir le formulaire :</div>
+              </div>
+
+              <div className="line noHeight">
+                <div className="c1">
+                  <div className="ligne" />
+                </div>
+                <div className="c2">
+                  <form>
+                    Equipe :
+                    <select
+                      name="equipe"
+                      placeholder="Equipe"
+                      onChange={(e) =>
+                        this.setState({ userTeam: e.target.value })
+                      }
+                    >
+                      {this.state.teams.map((team) => (
+                        <option value={team.id}>{team.nom}</option>
+                      ))}
+                    </select>
+                    Défi :
+                    <select
+                      placeholder="défi"
+                      onChange={(e) =>
+                        this.setState({ idDefi: e.target.value })
+                      }
+                    >
+                      {this.state.defis.map((defi) => (
+                        <option value={defi.id}>
+                          {"#" + defi.id + " : " + defi.nom}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      placeholder="Lien du post Facebook"
+                      onChange={(e) =>
+                        this.setState({ preuve: e.target.value })
+                      }
+                    />
+                    {this.state.error ? (
+                      <p className="error">Erreur : {this.state.error}</p>
+                    ) : (
+                      ""
+                    )}
+                    <div
+                      className="bouton valider"
+                      onClick={() => this.postDefi()}
+                    >
+                      Valider le défi !
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div
+                className="bouton bottom"
+                onClick={(e) => this.setState({ fillingDefi: false })}
+              >
+                Retour
+              </div>
             </div>
           </div>
         ) : (
@@ -174,3 +343,5 @@ export default class PreweiPage extends React.Component {
     );
   }
 }
+
+export default withParams(PreweiPage);

@@ -129,10 +129,13 @@ $border-winners: 30px;
       max-width: 500px;
     }
   }
+  .error {
+    color: red;
+  }
   .defiTab {
     z-index: 1000;
     position: fixed;
-    top: 0;
+    top: 80px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -144,7 +147,69 @@ $border-winners: 30px;
       right: 30px;
       bottom: 30px;
       background-color: white;
-      border-radius: 20px;
+      border-radius: 10px;
+      .bouton {
+        &.valider {
+          margin-left: 5px;
+        }
+      }
+      .line {
+        display: flex;
+        flex-direction: row;
+        height: 15%;
+        &.noHeight {
+          height: 60%;
+          .c2 {
+            font-size: 16px;
+            display: flex;
+            align-items: start;
+            text-align: start;
+            width: 80%;
+            max-width: 400px;
+            form {
+              width: 80%;
+              select {
+                margin-bottom: 20px;
+              }
+            }
+          }
+        }
+        .c1 {
+          position: relative;
+          width: 20%;
+          max-width: 100px;
+          height: 100%;
+          .txt {
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            height: 30px;
+            width: 30px;
+            background-color: white;
+            border: solid 2px $main-color;
+            border-radius: 1000px;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .ligne {
+            position: absolute;
+            z-index: 0;
+            height: 100%;
+            width: 50%;
+            border-right: solid 2px $main-color;
+          }
+        }
+        .c2 {
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+          text-align: start;
+          width: 80%;
+        }
+      }
     }
   }
 }

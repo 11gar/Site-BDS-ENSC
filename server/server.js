@@ -12,5 +12,6 @@ app.listen(4000, () => {
 
 require("./routes/equipe.route")(app);
 require("./routes/user.route")(app);
+require("./routes/defi.route")(app);
 
 module.exports = app;
