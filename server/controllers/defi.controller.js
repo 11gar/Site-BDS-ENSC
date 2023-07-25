@@ -24,6 +24,18 @@ exports.getDefisFromEquipe = (req, res) => {
   });
 };
 
+exports.getDefisRemplis = (req, res) => {
+  Defi.getDefisRemplis("oui", (data, err) => {
+    if (err)
+      res({
+        message: err.message || "Some error occurred while retrieving defis.",
+      });
+    else {
+      res.send(data);
+    }
+  });
+};
+
 exports.getDefiById = (req, res) => {
   Defi.getDefiById(req.params.idDefi, (data, err) => {
     if (err)

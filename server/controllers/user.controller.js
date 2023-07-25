@@ -11,6 +11,9 @@ exports.createUser = (req, res) => {
     pseudo: req.body.pseudo,
     nom: req.body.nom,
     prenom: req.body.prenom,
+    password: req.body.password,
+    annee: req.body.annee,
+    mail: req.body.mail,
   });
 
   User.createUser(user, (data, err) => {

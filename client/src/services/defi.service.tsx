@@ -63,6 +63,16 @@ export const getDefisByEquipe = async (idEquipe: number) => {
   return idDefis;
 };
 
+export const getDefisRemplis = async () => {
+  let defis: IDefi[] = [];
+  await axios.get("http://localhost:4000/defis/remplis/0").then((res) => {
+    res.data.map((defi: any) => {
+      defis.push(defi);
+    });
+  });
+  return defis;
+};
+
 export const updatePointsEquipe = async (idEquipe: number, points: number) => {
   await axios.put("http://localhost:4000/equipe/" + idEquipe, {
     points: points,

@@ -3,13 +3,15 @@ export interface ITask {
 }
 
 export interface IUser {
-  id: number;
-  password: string;
+  id?: number;
+  password?: string;
   pseudo: string;
   nom: string;
   prenom: string;
   famille?: string;
   equipe?: string;
+  mail?: string;
+  annee?: number;
 }
 
 export interface IRoute {

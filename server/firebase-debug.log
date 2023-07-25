@@ -1,0 +1,21 @@
+[debug] [2023-07-18T22:43:56.899Z] ----------------------------------------------------------------------
+[debug] [2023-07-18T22:43:56.902Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Ansgar\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2023-07-18T22:43:56.902Z] CLI Version:   12.4.4
+[debug] [2023-07-18T22:43:56.903Z] Platform:      win32
+[debug] [2023-07-18T22:43:56.903Z] Node Version:  v18.16.0
+[debug] [2023-07-18T22:43:56.904Z] Time:          Wed Jul 19 2023 00:43:56 GMT+0200 (heure d’été d’Europe centrale)
+[debug] [2023-07-18T22:43:56.904Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-07-18T22:43:56.911Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-07-18T22:43:56.912Z] > authorizing via signed-in user (wetzel.ansgar@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Ansgar\Desktop\1A\BDS-V2\server
+

@@ -1,7 +1,6 @@
 import React from "react";
 import "./front-page.scss";
 import "../../styles/basics.scss";
-import { createCookie, deleteCookie } from "../../functions";
 import { ITeam, IDefi } from "../../types/types";
 import { getTeams, getTeamById } from "../../services/equipe.service";
 import {
@@ -28,7 +27,6 @@ export default class FrontPage extends React.Component {
 
         <div className="content">
           <h1>FrontPage</h1>
-          {document.cookie}
         </div>
       </div>
     );

@@ -10,12 +10,7 @@ import {
   updatePointsEquipe,
   getDefisByEquipe,
 } from "../../services/defi.service";
-import {
-  createCookie,
-  deleteCookie,
-  getCookie,
-  getProps,
-} from "../../functions";
+import { getProps } from "../../functions";
 import Loader from "../../Components/app-loader/app-loader";
 import { useParams, Link } from "react-router-dom";
 

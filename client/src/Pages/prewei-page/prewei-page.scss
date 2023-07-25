@@ -122,15 +122,17 @@ $border-winners: 30px;
     flex-direction: column;
     margin-top: 10px;
     align-self: center;
+    align-items: center;
     width: 90%;
+    .b {
+      width: 100%;
+      max-width: 500px;
+    }
     .bouton {
       align-self: center;
       margin-top: 10px;
       max-width: 500px;
     }
-  }
-  .error {
-    color: red;
   }
   .defiTab {
     z-index: 1000;
@@ -211,5 +213,8 @@ $border-winners: 30px;
         }
       }
     }
+  }
+  .derniersDefisRemplis {
+    margin-top: 20px;
   }
 }

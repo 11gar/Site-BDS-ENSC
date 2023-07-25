@@ -9,13 +9,9 @@ import {
   remplirDefi,
   updatePointsEquipe,
   getDefisByEquipe,
+  getDefisRemplis,
 } from "../../services/defi.service";
-import {
-  createCookie,
-  deleteCookie,
-  getCookie,
-  getProps,
-} from "../../functions";
+import { getProps } from "../../functions";
 import Loader from "../../Components/app-loader/app-loader";
 import { useParams, Link } from "react-router-dom";
 
@@ -40,6 +36,7 @@ class PreweiPage extends React.Component {
     idDefi: null as number | null,
     preuve: null as string | null,
     error: null as string | null,
+    derniersDefisRemplis: [] as IDefi[],
   };
 
   constructor(props: any) {
@@ -47,7 +44,7 @@ class PreweiPage extends React.Component {
   }
 
   async componentDidMount() {
-    this.user = getCookie("user") ? +getCookie("user")! : null;
+    this.user = +localStorage.getItem("user")!;
 
     await this.doOnStart();
     this.setState({ loading: false });
@@ -59,8 +56,6 @@ class PreweiPage extends React.Component {
     }
     this.readableProps = getProps(this.props);
 
-    console.log(+this.readableProps.defi);
-
     if (this.readableProps.defi != undefined) {
       this.setState({ fillingDefi: true });
       this.setState({ idDefi: +this.readableProps.defi });
@@ -69,13 +64,11 @@ class PreweiPage extends React.Component {
       defisSorted.push(
         this.state.defis.find((defi) => defi.id == +this.readableProps.defi)!
       );
-      console.log(defisSorted);
       this.state.defis.forEach((defi) => {
         if (defi.id != +this.readableProps.defi) {
           defisSorted.push(defi);
         }
       });
-      console.log(defisSorted);
 
       this.setState({ defis: defisSorted });
     }
@@ -84,10 +77,9 @@ class PreweiPage extends React.Component {
   async doOnStart() {
     await this.getTeamsFromService();
     await this.getDefisFromService();
-
     await this.setPointsLength();
-
     await this.animatePoints();
+    await this.getDerniersDefisRemplis();
   }
 
   async getTeamsFromService() {
@@ -98,6 +90,14 @@ class PreweiPage extends React.Component {
   async getDefisFromService() {
     this.setState({
       defis: (await getDefis()).sort((a, b) => a.id - b.id),
+    });
+  }
+
+  async getDerniersDefisRemplis() {
+    this.setState({
+      derniersDefisRemplis: (await getDefisRemplis()).sort(
+        (a, b) => b.id - a.id
+      ),
     });
   }
 
@@ -172,8 +172,6 @@ class PreweiPage extends React.Component {
   }
 
   async postDefi() {
-    console.log("post", this.state.idDefi, this.state.userTeam);
-
     if (this.state.idDefi && this.state.userTeam && this.state.preuve) {
       const pts = this.state.defis.find(
         (defi) => defi.id == this.state.idDefi
@@ -183,8 +181,6 @@ class PreweiPage extends React.Component {
       );
 
       const defisEquipe = await getDefisByEquipe(this.state.userTeam);
-      console.log("defisEquipe", defisEquipe, this.state.idDefi);
-      console.log("déja fait ?", defisEquipe.includes(this.state.idDefi));
       if (defisEquipe == null || !defisEquipe.includes(this.state.idDefi)) {
         remplirDefi(this.state.userTeam, this.state.idDefi, this.state.preuve);
         updatePointsEquipe(this.state.userTeam, +team!.points + +pts);
@@ -249,10 +245,11 @@ class PreweiPage extends React.Component {
           >
             + Remplir un défi
           </div>
-          <Link to="/defis">
+          <Link className="b" to="/defis">
             <div className="bouton light">Liste des défis</div>
           </Link>
         </div>
+        <div className="derniersDefisRemplis"></div>
 
         {this.state.fillingDefi ? (
           <div className="defiTab">
